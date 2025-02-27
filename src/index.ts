@@ -12,6 +12,21 @@ export type { ProviderMakerOptions } from '@/entrypoint/declare';
 export type { MovieScrapeContext, ShowScrapeContext, EmbedScrapeContext, ScrapeContext } from '@/utils/context';
 export type { SourcererOptions, EmbedOptions } from '@/providers/base';
 
+export {
+  type Fetcher,
+  type UseableFetcher,
+  type FetcherOptions,
+  type FetcherResponse,
+  type Stream,
+  type StreamQuality,
+  type RunOutput,
+  type ProviderMakerOptions,
+  type Provider,
+  type Media,
+  type MovieContext,
+  type ShowContext,
+} from './types';
+
 export { NotFoundError } from '@/utils/errors';
 export { makeProviders } from '@/entrypoint/declare';
 export { buildProviders } from '@/entrypoint/builder';

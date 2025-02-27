@@ -1,6 +1,10 @@
+// تعريفات أساسية للمكتبة
 export interface Fetcher {
   (url: string, options?: FetcherOptions): Promise<FetcherResponse>;
 }
+
+// إضافة تعريف UseableFetcher
+export type UseableFetcher = (url: string | URL, init?: RequestInit) => Promise<FetcherResponse>;
 
 export interface FetcherOptions {
   method?: string;
@@ -20,12 +24,20 @@ export interface FetcherResponse {
   body?: any;
 }
 
+// تحديث تعريف Stream
 export interface Stream {
+  id: string;
   type: "file" | "hls";
+  quality?: string;
+  server?: string;
+  url?: string;
   qualities?: Record<string, { type: "mp4"; url: string }>;
   playlist?: string;
   headers?: Record<string, string>;
 }
+
+// إضافة تعريف StreamQuality
+export type StreamQuality = "auto" | "1080" | "720" | "480" | "360" | "240";
 
 export interface RunOutput {
   stream: Stream | Stream[];
@@ -37,12 +49,13 @@ export interface ProviderMakerOptions {
   proxiedFetcher: Fetcher;
 }
 
-export interface ProviderBuilder {
+// تحديث Provider interface
+export interface Provider {
   id: string;
   name: string;
   rank: number;
-  scrapeMovie?: (ctx: any) => Promise<RunOutput>;
-  scrapeShow?: (ctx: any) => Promise<RunOutput>;
+  scrapeMovie?: (ctx: MovieContext) => Promise<RunOutput>;
+  scrapeShow?: (ctx: ShowContext) => Promise<RunOutput>;
 }
 
 export interface Media {
@@ -53,4 +66,15 @@ export interface Media {
   imdbId?: string;
   season?: number;
   episode?: number;
+}
+
+// تحديث السياقات
+export interface MovieContext {
+  media: Media;
+  fetcher: Fetcher;
+}
+
+export interface ShowContext extends MovieContext {
+  season: number;
+  episode: number;
 }
