@@ -17,6 +17,7 @@ export interface FetcherOptions {
 export interface FetcherResponse {
   ok: boolean;
   status: number;
+  statusCode: number;  // أضفنا هذا
   headers: Headers;
   text(): Promise<string>;
   json(): Promise<any>;
@@ -86,7 +87,7 @@ export interface ShowContext extends MovieContext {
   episode: number;
 }
 
-export type Targets = "browser" | "node";
+export type Targets = "browser" | "node" | "any";
 
 export interface Flags {
   target: Targets;
