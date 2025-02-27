@@ -1,8 +1,9 @@
 import nodeFetch from 'node-fetch';
 
 import { Embed, Sourcerer } from '@/providers/base';
-
-import { ProviderMakerOptions, makeStandardFetcher, targets } from '..';
+import { targets } from '@/entrypoint/utils/targets';
+import { type ProviderMakerOptions } from '@/entrypoint/declare';
+import { makeStandardFetcher } from '@/fetchers/standardFetch';
 
 export type CommandLineArguments = {
   fetcher: string;
@@ -80,6 +81,7 @@ export async function processOptions(sources: Array<Embed | Sourcerer>, options:
 
   const providerOptions: ProviderMakerOptions = {
     fetcher,
+    proxiedFetcher: fetcher,
     target: targets.ANY,
     consistentIpForRequests: true,
   };

@@ -12,7 +12,10 @@ import { logDeepObject } from '@/dev-cli/logging';
 import { getMovieMediaDetails, getShowMediaDetails } from '@/dev-cli/tmdb';
 import { CommandLineArguments } from '@/dev-cli/validate';
 
-import { MetaOutput, ProviderMakerOptions, makeProviders } from '..';
+import { MetaOutput } from '..';
+import { targets } from '@/entrypoint/utils/targets';
+import { type ProviderMakerOptions } from '@/entrypoint/declare';
+import { makeProviders } from '@/entrypoint/declare';
 
 async function runBrowserScraping(
   providerOptions: ProviderMakerOptions,
@@ -91,7 +94,11 @@ async function runActualScraping(
   options: CommandLineArguments,
 ): Promise<any> {
   if (options.fetcher === 'browser') return runBrowserScraping(providerOptions, source, options);
-  const providers = makeProviders(providerOptions);
+  const providers = makeProviders({
+    ...providerOptions,
+    target: options.fetcher === 'browser' ? targets.BROWSER : targets.ANY,
+    proxiedFetcher: providerOptions.fetcher,
+  });
 
   if (source.type === 'embed') {
     return providers.runEmbedScraper({

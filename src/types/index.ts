@@ -1,28 +1,28 @@
-// تعريفات أساسية للمكتبة
-export interface Fetcher {
-  (url: string, options: DefaultedFetcherOptions): Promise<FetcherResponse>;
-}
+import { type Targets } from '@/entrypoint/utils/targets';
+import { type Fetcher, type FetcherResponse } from '@/fetchers/types';
+
+export type { Fetcher, FetcherResponse };
 
 // إضافة تعريف UseableFetcher
-export type UseableFetcher = (url: string, init: RequestInit) => Promise<FetcherResponse>;
+export interface UseableFetcher {
+  <T = any>(url: string, init?: FetcherOptions): Promise<T>;
+  full: <T = any>(url: string, init?: FetcherOptions) => Promise<FetcherResponse<T>>;
+}
 
 export interface DefaultedFetcherOptions {
-  method: string;
+  method: 'HEAD' | 'GET' | 'POST';
   headers: Record<string, string>;
   body?: string | Record<string, any> | FormData;
   query: Record<string, string>;
   readHeaders: string[];
 }
 
-export interface FetcherResponse {
-  ok: boolean;
-  status: number;
-  statusCode: number;  // أضفنا هذا
-  headers: Headers;
-  text(): Promise<string>;
-  json(): Promise<any>;
-  finalUrl: string;  // جعلناه إلزامي
-  body?: any;
+export interface FetcherOptions {
+  method?: 'HEAD' | 'GET' | 'POST';
+  headers?: Record<string, string>;
+  body?: string | Record<string, any> | FormData;
+  query?: Record<string, string>;
+  readHeaders?: string[];
 }
 
 // تحديث تعريف Stream
@@ -49,6 +49,8 @@ export interface ProviderMakerOptions {
   fetcher: Fetcher;
   proxiedFetcher: Fetcher;
   target: Targets;
+  consistentIpForRequests?: boolean;
+  providers: Provider[];
 }
 
 // تحديث Provider interface
@@ -60,10 +62,12 @@ export interface Provider {
   scrapeShow?: (ctx: ShowContext) => Promise<RunOutput>;
 }
 
-export interface ProviderBuilder extends Provider {
+export interface ProviderBuilder {
   id: string;
   name: string;
   rank: number;
+  scrapeMovie?: (ctx: MovieContext) => Promise<RunOutput>;
+  scrapeShow?: (ctx: ShowContext) => Promise<RunOutput>;
 }
 
 export interface Media {
@@ -76,10 +80,9 @@ export interface Media {
   episode?: number;
 }
 
-// تحديث السياقات
 export interface MovieContext {
   media: Media;
-  fetcher: Fetcher;
+  fetcher: UseableFetcher;
 }
 
 export interface ShowContext extends MovieContext {
@@ -87,7 +90,7 @@ export interface ShowContext extends MovieContext {
   episode: number;
 }
 
-export type Targets = "browser" | "node" | "any";
+export { type Targets };
 
 export interface Flags {
   target: Targets;
