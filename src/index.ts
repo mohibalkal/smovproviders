@@ -2,7 +2,7 @@
 export type {
   Fetcher,
   UseableFetcher,
-  FetcherOptions,
+  DefaultedFetcherOptions,
   FetcherResponse,
   Stream,
   StreamQuality,
@@ -20,7 +20,6 @@ export type {
 // تصدير الأنواع الإضافية
 export type { EmbedOutput, SourcererOutput } from '@/providers/base';
 export type { StreamFile, FileBasedStream, HlsBasedStream, Qualities } from '@/providers/streams';
-export type { DefaultedFetcherOptions } from '@/fetchers/types';
 export type { MetaOutput } from '@/entrypoint/utils/meta';
 export type { FullScraperEvents } from '@/entrypoint/utils/events';
 export type { MediaTypes, ShowMedia, ScrapeMedia, MovieMedia } from '@/entrypoint/utils/media';

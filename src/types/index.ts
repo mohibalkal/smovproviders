@@ -1,17 +1,17 @@
 // تعريفات أساسية للمكتبة
 export interface Fetcher {
-  (url: string, options?: FetcherOptions): Promise<FetcherResponse>;
+  (url: string, options: DefaultedFetcherOptions): Promise<FetcherResponse>;
 }
 
 // إضافة تعريف UseableFetcher
-export type UseableFetcher = (url: string, init?: RequestInit) => Promise<FetcherResponse>;
+export type UseableFetcher = (url: string, init: RequestInit) => Promise<FetcherResponse>;
 
-export interface FetcherOptions {
-  method?: string;
-  headers?: Record<string, string>;
+export interface DefaultedFetcherOptions {
+  method: string;
+  headers: Record<string, string>;
   body?: string | Record<string, any> | FormData;
-  query?: Record<string, string>;
-  readHeaders?: string[];
+  query: Record<string, string>;
+  readHeaders: string[];
 }
 
 export interface FetcherResponse {
@@ -21,7 +21,7 @@ export interface FetcherResponse {
   headers: Headers;
   text(): Promise<string>;
   json(): Promise<any>;
-  finalUrl?: string;
+  finalUrl: string;  // جعلناه إلزامي
   body?: any;
 }
 
