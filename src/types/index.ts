@@ -1,6 +1,6 @@
 // تعريفات أساسية للمكتبة
 export interface Fetcher {
-  (url: string, options?: FetcherOptions): Promise<FetcherResponse>;
+  (url: string | URL, options?: FetcherOptions): Promise<FetcherResponse>;
 }
 
 // إضافة تعريف UseableFetcher
@@ -9,7 +9,7 @@ export type UseableFetcher = (url: string | URL, init?: RequestInit) => Promise<
 export interface FetcherOptions {
   method?: string;
   headers?: Record<string, string>;
-  body?: any;
+  body?: string | Record<string, any> | FormData;
   query?: Record<string, string>;
   readHeaders?: string[];
 }
@@ -28,7 +28,7 @@ export interface FetcherResponse {
 export interface Stream {
   id: string;
   type: "file" | "hls";
-  quality?: string;
+  quality?: StreamQuality;
   server?: string;
   url?: string;
   qualities?: Record<string, { type: "mp4"; url: string }>;
@@ -56,6 +56,12 @@ export interface Provider {
   rank: number;
   scrapeMovie?: (ctx: MovieContext) => Promise<RunOutput>;
   scrapeShow?: (ctx: ShowContext) => Promise<RunOutput>;
+}
+
+export interface ProviderBuilder extends Provider {
+  id: string;
+  name: string;
+  rank: number;
 }
 
 export interface Media {
