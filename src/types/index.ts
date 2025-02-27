@@ -35,6 +35,11 @@ export interface Stream {
   qualities?: Record<string, { type: "mp4"; url: string }>;
   playlist?: string;
   headers?: Record<string, string>;
+  preferredHeaders?: Record<string, string>;
+  captions?: {
+    language: string;
+    url: string;
+  }[];
 }
 
 // إضافة تعريف StreamQuality
