@@ -1,10 +1,10 @@
 // تعريفات أساسية للمكتبة
 export interface Fetcher {
-  (url: string | URL, options?: FetcherOptions): Promise<FetcherResponse>;
+  (url: string, options?: FetcherOptions): Promise<FetcherResponse>;
 }
 
 // إضافة تعريف UseableFetcher
-export type UseableFetcher = (url: string | URL, init?: RequestInit) => Promise<FetcherResponse>;
+export type UseableFetcher = (url: string, init?: RequestInit) => Promise<FetcherResponse>;
 
 export interface FetcherOptions {
   method?: string;
@@ -47,6 +47,7 @@ export interface RunOutput {
 export interface ProviderMakerOptions {
   fetcher: Fetcher;
   proxiedFetcher: Fetcher;
+  target: Targets;
 }
 
 // تحديث Provider interface
@@ -83,4 +84,11 @@ export interface MovieContext {
 export interface ShowContext extends MovieContext {
   season: number;
   episode: number;
+}
+
+export type Targets = "browser" | "node";
+
+export interface Flags {
+  target: Targets;
+  debug?: boolean;
 }

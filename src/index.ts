@@ -13,6 +13,8 @@ export type {
   Media,
   MovieContext,
   ShowContext,
+  Targets,
+  Flags,
 } from './types';
 
 // تصدير الأنواع الإضافية
@@ -27,7 +29,8 @@ export type { SourcererOptions, EmbedOptions } from '@/providers/base';
 
 // تصدير الوظائف والثوابت
 export { NotFoundError } from '@/utils/errors';
-export { makeProviders } from '@/entrypoint/declare';
+export { makeProviders, buildProviders } from '@/entrypoint/declare';
 export { makeStandardFetcher } from '@/fetchers/standardFetch';
 export { makeSimpleProxyFetcher } from '@/fetchers/simpleProxy';
 export { targets, flags } from '@/entrypoint/utils/targets';
+export { getBuiltinEmbeds, getBuiltinSources } from '@/entrypoint/providers';
